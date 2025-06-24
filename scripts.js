@@ -35,30 +35,49 @@ form.onsubmit = (event) => {
 
     console.log(newExpense.amount);
 
-    addExpense(newExpense.expense, newExpense.category_name, newExpense.amount);
+    addExpense(newExpense.expense, newExpense.category_name, newExpense.category_id, newExpense.amount);
 
     console.log(newExpense);
 }
 
-function addExpense(title, category, amount) {
+function addExpense(title, category_name, category_id, amount) {
     try { 
-        const li = document.createElement('li');
-        li.className = 'expense';
+        const expenseItem = document.createElement('li');
+        expenseItem.classList.add('expense');
 
-        li.innerHTML = `
-            <img src="./img/${category.toLowerCase()}.svg" alt="Ícone de tipo da despesa" />
+        const expenseIcon = document.createElement('img');
+        expenseIcon.setAttribute("src", `./img/${category_id}.svg`);
+        expenseIcon.setAttribute("alt", `${category_name} icon`);
 
-            <div class="expense-info">
-                <strong>${title}</strong>
-                <span>${category}</span>
-            </div>
+        const expenseInfo = document.createElement('div');
+        expenseInfo.classList.add('expense-info');
 
-            <span class="expense-amount"><small>$</small>${amount.replace('$', '')}</span>
+        const expenseTitle = document.createElement('strong');
+        expenseTitle.textContent = title;
 
-            <img src="./img/remove.svg" alt="remover" class="remove-icon" />
-        `;
+        const expenseCategory = document.createElement('span');
+        expenseCategory.textContent = category_name;
 
-        expenseListContainer.appendChild(li);
+        expenseInfo.append(expenseTitle, expenseCategory);
+
+        const expenseAmount = document.createElement('span');
+        expenseAmount.classList.add('expense-amount');
+
+        const currencySign = document.createElement('small');
+        currencySign.textContent = '$';
+
+        const amountValue = document.createTextNode(amount.replace('$', ''));
+
+        expenseAmount.append(currencySign, amountValue);
+
+        const removeIcon = document.createElement('img');
+        removeIcon.setAttribute("src", "./img/remove.svg");
+        removeIcon.setAttribute("alt", "remove");
+        removeIcon.classList.add('remove-icon');
+
+        expenseItem.append(expenseIcon, expenseInfo, expenseAmount, removeIcon);
+
+        expenseListContainer.appendChild(expenseItem);
     } catch (error) {
         alert("Não foi poossível atualizar a lista de despesas.")
         console.error("Erro ao adicionar despesa:", error);
