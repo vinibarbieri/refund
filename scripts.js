@@ -41,21 +41,27 @@ form.onsubmit = (event) => {
 }
 
 function addExpense(title, category, amount) {
-    const li = document.createElement('li');
-    li.className = 'expense';
+    try { 
+        const li = document.createElement('li');
+        li.className = 'expense';
 
-    li.innerHTML = `
-        <img src="./img/${category.toLowerCase()}.svg" alt="Ícone de tipo da despesa" />
+        li.innerHTML = `
+            <img src="./img/${category.toLowerCase()}.svg" alt="Ícone de tipo da despesa" />
 
-        <div class="expense-info">
-            <strong>${title}</strong>
-            <span>${category}</span>
-        </div>
+            <div class="expense-info">
+                <strong>${title}</strong>
+                <span>${category}</span>
+            </div>
 
-        <span class="expense-amount"><small>$</small>${amount.replace('$', '')}</span>
+            <span class="expense-amount"><small>$</small>${amount.replace('$', '')}</span>
 
-        <img src="./img/remove.svg" alt="remover" class="remove-icon" />
-    `;
+            <img src="./img/remove.svg" alt="remover" class="remove-icon" />
+        `;
 
-    expenseListContainer.appendChild(li);
+        expenseListContainer.appendChild(li);
+    } catch (error) {
+        alert("Não foi poossível atualizar a lista de despesas.")
+        console.error("Erro ao adicionar despesa:", error);
+    }
+    
 }
